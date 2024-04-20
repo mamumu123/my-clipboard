@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, Tray, Menu, nativeImage } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
@@ -45,6 +45,7 @@ async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    // show: false,
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -74,7 +75,29 @@ async function createWindow() {
     if (url.startsWith('https:')) shell.openExternal(url)
     return { action: 'deny' }
   })
+
+  win.setMenuBarVisibility(false)
+
   // win.webContents.on('will-navigate', (event, url) => { }) #344
+  const icon = {
+    linux: 'icons/64x64.png',
+    win32: 'icons/64x64.png',
+    darwin: 'icons/16x16.png'
+  }
+  const iconPath = path.join(process.env.VITE_PUBLIC, icon[process.platform]);
+  const tray = new Tray(iconPath);
+  const template = [
+    {
+      label: '打开',
+      click: () => win.show(),
+    },
+    {
+      label: '退出',
+      click: () => app.exit(),
+    }
+  ];
+  let contextMenu = Menu.buildFromTemplate(template);
+  tray.setContextMenu(contextMenu);
 }
 
 app.whenReady().then(createWindow)
