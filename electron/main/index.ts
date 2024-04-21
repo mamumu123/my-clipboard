@@ -1,7 +1,8 @@
-import { app, BrowserWindow, shell, ipcMain, Tray, Menu, nativeImage } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, Tray, Menu } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
+import { subscribeClipboard } from './clipboard'
 
 globalThis.__filename = fileURLToPath(import.meta.url)
 globalThis.__dirname = path.dirname(__filename)
@@ -98,6 +99,9 @@ async function createWindow() {
   ];
   let contextMenu = Menu.buildFromTemplate(template);
   tray.setContextMenu(contextMenu);
+
+  subscribeClipboard(win);
+
 }
 
 app.whenReady().then(createWindow)

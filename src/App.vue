@@ -3,9 +3,7 @@ import ClipBoard from './components/ClipBoard.vue'
 </script>
 
 <template>
-  <ClipBoard/>
+  <ClipBoard />
 </template>
 
-<style>
-
-</style>
+<style></style>
