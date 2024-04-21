@@ -2,13 +2,13 @@
 import { message } from 'ant-design-vue';
 import { copyContent } from '../utils/utils';
 import { useHistory } from '../hooks/useHistory';
-import { ref } from 'vue';
 
 const columns = [
   {
     title: '内容',
     dataIndex: 'text',
     key: 'text',
+    ellipsis: true,
   }
 ]
 const {
@@ -37,14 +37,31 @@ window.ipcRenderer.on('clipboard-change', (_event, value) => {
 </script>
 
 <template>
-  <div>
-    <div>
+  <div class="container">
+    <div class="input-box">
       <a-input-search v-model:value="searchText" placeholder="搜索" enter-button @search="onSearch" />
     </div>
-    <div>
-      <a-table :dataSource="historyData" :columns="columns" :customRow="customRow" />
+    <div class="table-box">
+      <a-table :dataSource="historyData" :showHeader="false" :columns="columns" :customRow="customRow" />
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  width: 100%;
+  height: 100vh;
+}
+
+.input-box {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-box {
+  flex: 1;
+  overflow: hidden;
+}
+</style>

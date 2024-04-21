@@ -30,8 +30,6 @@ export class Database extends Dexie {
 
         this.history.add({ text: text })
     }
-
-
 }
 
 export interface IHistory {

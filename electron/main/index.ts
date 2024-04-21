@@ -45,6 +45,13 @@ const indexHtml = path.join(RENDERER_DIST, 'index.html')
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
+    width: 400,
+    height: 600,
+    autoHideMenuBar: true,
+    skipTaskbar: true,
+    maximizable: false,
+    resizable: false,
+    // closable: false,
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
     // show: false,
     webPreferences: {
@@ -99,6 +106,13 @@ async function createWindow() {
   ];
   let contextMenu = Menu.buildFromTemplate(template);
   tray.setContextMenu(contextMenu);
+
+  win.on('close', (event) => {
+    event.preventDefault();
+    win.hide();
+    return false;
+  });
+
 
   subscribeClipboard(win);
 

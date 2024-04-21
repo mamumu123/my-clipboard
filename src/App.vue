@@ -5,5 +5,3 @@ import ClipBoard from './components/ClipBoard.vue'
 <template>
   <ClipBoard />
 </template>
-
-<style></style>

@@ -22,11 +22,15 @@ export function useHistory() {
     // );
 
     const historyData = useDexieLiveQuery(
-        () => db.history.limit(50).toArray(),
+        () => db.history.toArray(),
         { initialValue: [] }
     );
 
-    const list = computed(() => historyData.value.reverse().filter((it) => (!searchText) || it.text.includes(searchText.value)));
+    const list = computed(() => historyData.value
+        .filter((it) => (!searchText) || it.text.includes(searchText.value)) // 过滤
+        .reverse() // 反转
+        .slice(0, 50) // 取前 50 个 
+    );
     return {
         historyData: list,
         setHistory,
